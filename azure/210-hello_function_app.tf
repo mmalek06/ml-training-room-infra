@@ -46,11 +46,4 @@ resource "azurerm_linux_function_app" "mtr_hello_function" {
   tags = {
     environment = "${var.environment_name}"
   }
-
-  timeouts {
-    create = "10m"
-    update = "10m"
-    delete = "10m"
-    read   = "10m"
-  }
 }

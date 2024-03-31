@@ -25,11 +25,4 @@ resource "azurerm_storage_account" "mtr_storage" {
   tags = {
     environment = "${var.environment_name}"
   }
-
-  timeouts {
-    create = "10m"
-    update = "10m"
-    delete = "10m"
-    read   = "10m"
-  }
 }

@@ -9,11 +9,4 @@ resource "azurerm_service_plan" "mtr_hello_function_svc_plan" {
   tags = {
     environment = "${var.environment_name}"
   }
-
-  timeouts {
-    create = "10m"
-    update = "10m"
-    delete = "10m"
-    read   = "10m"
-  }
 }
