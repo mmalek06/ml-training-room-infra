@@ -167,5 +167,7 @@ $RECYCLE.BIN/
 
 _NCrunch*
 
+# other
 *.publish
 *.publish.zip
+.idea
