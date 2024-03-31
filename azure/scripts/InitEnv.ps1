@@ -17,8 +17,8 @@ $SubscriptionId = ($Accounts | Where-Object { $_.name -eq $SubscriptionName }).i
 
 az account set --subscription $SubscriptionName
 
-$KeyVaultName = "mtr-kv-$SubscriptionEnv-notf"
-$TerraformFileContents = Get-Content "../01-resource_group.tf" -Raw
+$KeyVaultName = "mtr-kv-$SubscriptionEnv-notf1"
+$TerraformFileContents = Get-Content "../001-resource_group.tf" -Raw
 $ResourceGroupName = [regex]::Match($TerraformFileContents, 'resource "azurerm_resource_group" ".*?" {\s*name\s*=\s*"(.+?)"').Groups[1].Value
 $ResourceGroupName = "$ResourceGroupName-notf"
 $Location = [regex]::Match($TerraformFileContents, 'location = "(.+?)"').Groups[1].Value

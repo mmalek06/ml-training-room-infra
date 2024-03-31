@@ -1,6 +1,7 @@
 resource "azurerm_resource_group" "mtr_rg" {
-  name     = "mtr_resources"
+  name     = "mtr-resources"
   location = "Poland Central"
+
   tags = {
     environment = "local"
   }
