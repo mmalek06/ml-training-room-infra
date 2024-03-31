@@ -7,6 +7,4 @@ resource "null_resource" "run_pre_hello_powershell_script" {
     command     = "powershell -File ${path.module}/scripts/PrepareFunction.ps1 -ProjectName MTR.ListBlobsFunction"
     working_dir = path.module
   }
-
-  depends_on = [azurerm_storage_account.mtr_storage]
 }

@@ -15,11 +15,15 @@ function Create-ServicePrincipalIfAbsent {
     $ServicePrincipal = $ServicePrincipals | Where-Object { $_.displayName -eq $ServicePrincipalName }
 
     if ($servicePrincipal) {
+        Write-Host "Service principal exists, retrieving data..."
+
         $SecretValue = az keyvault secret show --name $SecretName --vault-name $KeyVaultName | ConvertFrom-Json
         $AppId = $ServicePrincipal.appId
         $Password = $SecretValue.value
     }
     else {
+        Write-Host "Service principal doesn't exist, creating..."
+
         $ServicePrincipal = az ad sp create-for-rbac --name $ServicePrincipalName --role Contributor --scopes /subscriptions/$SubscriptionId --output json | ConvertFrom-Json
         $AppId = $ServicePrincipal.appId
         $Password = $ServicePrincipal.password

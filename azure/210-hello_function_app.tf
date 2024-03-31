@@ -16,7 +16,7 @@ data "azurerm_storage_account_blob_container_sas" "storage_account_blob_containe
 }
 
 resource "azurerm_linux_function_app" "mtr_hello_function" {
-  name                       = "mtr-hello-function1"
+  name                       = "mtr-hello-function2"
   location                   = azurerm_resource_group.mtr_rg.location
   resource_group_name        = azurerm_resource_group.mtr_rg.name
   service_plan_id            = azurerm_service_plan.mtr_hello_function_svc_plan.id
