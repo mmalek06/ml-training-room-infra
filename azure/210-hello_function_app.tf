@@ -16,12 +16,14 @@ data "azurerm_storage_account_blob_container_sas" "storage_account_blob_containe
 }
 
 resource "azurerm_linux_function_app" "mtr_hello_function" {
-  name                       = "mtr-hello-function2"
+  name                       = "mtr-hello-function7"
   location                   = azurerm_resource_group.mtr_rg.location
   resource_group_name        = azurerm_resource_group.mtr_rg.name
   service_plan_id            = azurerm_service_plan.mtr_hello_function_svc_plan.id
   storage_account_name       = azurerm_storage_account.mtr_storage.name
   storage_account_access_key = azurerm_storage_account.mtr_storage.primary_access_key
+
+  depends_on = [azurerm_resource_group.mtr_rg, azurerm_service_plan.mtr_hello_function_svc_plan, azurerm_storage_account.mtr_storage]
 
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME"    = "dotnet"
@@ -31,8 +33,6 @@ resource "azurerm_linux_function_app" "mtr_hello_function" {
   }
 
   site_config {
-    application_insights_connection_string = azurerm_application_insights.mtr_ai.connection_string
-
     application_stack {
       dotnet_version              = "8.0"
       use_dotnet_isolated_runtime = true
@@ -45,5 +45,12 @@ resource "azurerm_linux_function_app" "mtr_hello_function" {
 
   tags = {
     environment = "${var.environment_name}"
+  }
+
+  timeouts {
+    create = "10m"
+    update = "10m"
+    delete = "10m"
+    read   = "10m"
   }
 }

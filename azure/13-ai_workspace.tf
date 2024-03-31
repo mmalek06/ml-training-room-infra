@@ -8,4 +8,11 @@ resource "azurerm_log_analytics_workspace" "mtr_ai_workspace" {
   tags = {
     environment = "${var.environment_name}"
   }
+
+  timeouts {
+    create = "10m"
+    update = "10m"
+    delete = "10m"
+    read   = "10m"
+  }
 }

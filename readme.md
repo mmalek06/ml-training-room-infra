@@ -20,3 +20,17 @@ The procedure is simple:
 1. cd ./scripts
 2. Run InitEnv.ps1 with the word "local" as the parameter
 3. Run Terraform commands
+
+# Issues
+
+As of 31.03.2024, every time when I was trying to provision resources outside Poland Central location, I got a ton of errors - dependent resources not available.
+That's why those blocks were added for the most problematic resources:
+
+```
+  timeouts {
+    create = "10m"
+    update = "10m"
+    delete = "10m"
+    read   = "10m"
+  }
+```

@@ -9,7 +9,7 @@ param(
 
 $AppNamePrefix = "ml-training-room"
 $SubscriptionName = "$AppNamePrefix-$SubscriptionEnv"
-$ServicePrincipalName = "$AppNamePrefix-principal-$SubscriptionEnv-notf3"
+$ServicePrincipalName = "$AppNamePrefix-principal-$SubscriptionEnv-notf5"
 $LoginResult = az login
 $Accounts = $LoginResult | ConvertFrom-Json
 $TenantId = ($Accounts | Where-Object { $_.name -eq $SubscriptionName }).tenantId
@@ -17,7 +17,7 @@ $SubscriptionId = ($Accounts | Where-Object { $_.name -eq $SubscriptionName }).i
 
 az account set --subscription $SubscriptionName
 
-$KeyVaultName = "mtr-kv-$SubscriptionEnv-notf3"
+$KeyVaultName = "mtr-kv-$SubscriptionEnv-notf5"
 $TerraformFileContents = Get-Content "../01-resource_group.tf" -Raw
 $ResourceGroupName = [regex]::Match($TerraformFileContents, 'resource "azurerm_resource_group" ".*?" {\s*name\s*=\s*"(.+?)"').Groups[1].Value
 $ResourceGroupName = "$ResourceGroupName-notf"
