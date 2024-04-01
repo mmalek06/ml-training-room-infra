@@ -25,3 +25,10 @@ module "hello_function" {
   resource_group_location                   = module.shared_components.resource_group_location
   resource_group_name                       = module.shared_components.resource_group_name
 }
+
+module "network_security" {
+  source                     = "./modules/network_security"
+  storage_account_id         = module.shared_components.storage_account_id
+  network_rules_dependencies = [module.hello_function.hello_function_container]
+  subnet_id                  = module.shared_components.subnet_id
+}

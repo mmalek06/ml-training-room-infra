@@ -15,15 +15,7 @@ resource "azurerm_storage_account" "mtr_storage" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  network_rules {
-    default_action             = "Deny"
-    virtual_network_subnet_ids = [ azurerm_subnet.mtr_subnet.id ]
-    bypass                     = ["AzureServices", "Metrics"]
-  }
-
   tags = {
     environment = "${var.environment_name}"
   }
-
-  depends_on = [ azurerm_virtual_network.mtr_vnet, azurerm_subnet.mtr_subnet ]
 }
