@@ -17,12 +17,13 @@ resource "azurerm_storage_account" "mtr_storage" {
 
   network_rules {
     default_action             = "Deny"
-    ip_rules                   = ["127.0.0.1", "87.205.30.9"]
-    virtual_network_subnet_ids = [azurerm_subnet.mtr_subnet.id]
+    virtual_network_subnet_ids = [ azurerm_subnet.mtr_subnet.id ]
     bypass                     = ["AzureServices", "Metrics"]
   }
 
   tags = {
     environment = "${var.environment_name}"
   }
+
+  depends_on = [ azurerm_virtual_network.mtr_vnet, azurerm_subnet.mtr_subnet ]
 }
