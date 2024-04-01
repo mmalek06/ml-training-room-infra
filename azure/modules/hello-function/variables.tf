@@ -9,3 +9,5 @@ variable "storage_account_primary_access_key" { }
 variable "resource_group_location" { }
 
 variable "resource_group_name" { }
+
+variable "ai_connection_string" { }
