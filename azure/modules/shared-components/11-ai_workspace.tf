@@ -1,7 +1,7 @@
-resource "azurerm_log_analytics_workspace" "mtr_ai_workspace" {
-  name                = "mtr-workspace"
-  location            = azurerm_resource_group.mtr_rg.location
-  resource_group_name = azurerm_resource_group.mtr_rg.name
+resource "azurerm_log_analytics_workspace" "mltr_ai_workspace" {
+  name                = "mltr-workspace"
+  location            = azurerm_resource_group.mltr_rg.location
+  resource_group_name = azurerm_resource_group.mltr_rg.name
   sku                 = "PerGB2018"
   retention_in_days   = 30
 

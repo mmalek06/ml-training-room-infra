@@ -1,5 +1,5 @@
-resource "azurerm_resource_group" "mtr_rg" {
-  name     = "mtr-resources"
+resource "azurerm_resource_group" "mltr_rg" {
+  name     = "mltr-resources"
   location = "Germany West Central"
 
   tags = {

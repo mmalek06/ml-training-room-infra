@@ -16,8 +16,8 @@ module "shared_components" {
   environment_name = var.environment_name
 }
 
-module "hello_function" {
-  source                                    = "./modules/hello-function"
+module "code_based_functions" {
+  source                                    = "./modules/code-based-functions"
   environment_name                          = var.environment_name
   storage_account_name                      = module.shared_components.storage_account_name
   storage_account_primary_connection_string = module.shared_components.storage_account_primary_connection_string
