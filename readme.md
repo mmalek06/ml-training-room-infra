@@ -8,10 +8,10 @@ more folders should be created.
 The management scripts should be idempotent. At least in the case of Azure cloud, they create a few resources that are not supposed to be managed. Those resources are 
 a resource group and a key vault. KV is needed to hold credentials for a service provider under which Terraform operates. 
 Other resources should be managed purely by Terraform. <br />
-For now there's only one management script:
 
-1. InitEnv.ps1 - initializes the aforementioned resources if they don't exist, then adds env variables for the current powershell session, so that
+1. InitRemote.ps1 - initializes the aforementioned resources if they don't exist, then adds env variables for the current powershell session, so that
    Terraform uses correct credentials
+2. InitLocal.ps1 - sets up local machine for development
 
 # Running terraform
 
