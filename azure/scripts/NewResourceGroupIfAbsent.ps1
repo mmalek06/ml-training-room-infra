@@ -1,4 +1,4 @@
-function Create-ResourceGroupIfAbsent {
+function New-ResourceGroupIfAbsent {
     param (
         [Parameter(Mandatory=$true)]
         [string]$ResourceGroupName,

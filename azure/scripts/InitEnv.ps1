@@ -3,9 +3,9 @@ param(
     [string]$SubscriptionEnv
 )
 
-. ./CreateResourceGroupIfAbsent.ps1
-. ./CreateKeyVaultIfAbsent.ps1
-. ./CreateServicePrincipalIfAbsent.ps1
+. ./NewResourceGroupIfAbsent.ps1
+. ./NewKeyVaultIfAbsent.ps1
+. ./NewServicePrincipalIfAbsent.ps1
 
 $AppNamePrefix = "ml-training-room"
 $SubscriptionName = "$AppNamePrefix-$SubscriptionEnv"
@@ -23,10 +23,10 @@ $ResourceGroupName = [regex]::Match($TerraformFileContents, 'resource "azurerm_r
 $ResourceGroupName = "$ResourceGroupName-notf"
 $Location = [regex]::Match($TerraformFileContents, 'location = "(.+?)"').Groups[1].Value
 
-Create-ResourceGroupIfAbsent -ResourceGroupName $ResourceGroupName -Location $Location
-Create-KeyVaultIfAbsent -ResourceGroupName $ResourceGroupName -KeyVaultName $KeyVaultName -Location $Location
+New-ResourceGroupIfAbsent -ResourceGroupName $ResourceGroupName -Location $Location
+New-KeyVaultIfAbsent -ResourceGroupName $ResourceGroupName -KeyVaultName $KeyVaultName -Location $Location
 
-$SpResult = Create-ServicePrincipalIfAbsent -SubscriptionId $SubscriptionId -ServicePrincipalName $ServicePrincipalName -KeyVaultName $KeyVaultName
+$SpResult = New-ServicePrincipalIfAbsent -SubscriptionId $SubscriptionId -ServicePrincipalName $ServicePrincipalName -KeyVaultName $KeyVaultName
 $AppId = $SpResult.AppId
 $Password = $SpResult.Password
 # these will automatically be detected and used by terraform

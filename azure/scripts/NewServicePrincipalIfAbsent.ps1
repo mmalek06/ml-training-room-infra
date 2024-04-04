@@ -1,4 +1,4 @@
-function Create-ServicePrincipalIfAbsent {
+function New-ServicePrincipalIfAbsent {
     param(
         [Parameter(Mandatory=$true)]
         [string]$SubscriptionId,

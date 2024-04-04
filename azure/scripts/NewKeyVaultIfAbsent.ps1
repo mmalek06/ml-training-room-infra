@@ -1,4 +1,4 @@
-function Create-KeyVaultIfAbsent {
+function New-KeyVaultIfAbsent {
     param(
         [Parameter(Mandatory=$true)]
         [string]$ResourceGroupName,
