@@ -10,7 +10,7 @@ function New-KeyVaultIfAbsent {
         [string]$Location
     )
 
-    $KeyVaultExists = az keyvault list --resource-group $ResourceGroupName | ConvertFrom-Json | Where-Object { $_.name -eq $KeyVaultName }
+    $KeyVaultExists = az keyvault list --resource-group $ResourceGroupName | ConvertFrom-Json | Where-Object { $_.name -eq "$KeyVaultName" }
 
     if ($KeyVaultExists) {
         Write-Host "Key Vault $KeyVaultName already exists."
