@@ -10,10 +10,11 @@ azure_login() {
     az account set --subscription "$SUBSCRIPTION_NAME"
 }
 
+COUNTER=10
 APP_NAME_PREFIX="ml-training-room"
 SUBSCRIPTION_ENV=$1
 SUBSCRIPTION_NAME="$APP_NAME_PREFIX-$SUBSCRIPTION_ENV"
-SERVICE_PRINCIPAL_NAME="$APP_NAME_PREFIX-principal-$SUBSCRIPTION_ENV-notf9"
+SERVICE_PRINCIPAL_NAME="$APP_NAME_PREFIX-principal-$SUBSCRIPTION_ENV-notf-$COUNTER"
 
 azure_login "$SUBSCRIPTION_NAME"
 
@@ -22,7 +23,7 @@ RESOURCE_GROUP_NAME="$RESOURCE_GROUP_NAME-notf"
 LOCATION=$(grep 'location\s*=' ../modules/shared-components/01-resource_group.tf | sed -r 's/.*"(.+?)"/\1/')
 
 new_resource_group_if_absent "$RESOURCE_GROUP_NAME" "$LOCATION"
-KEY_VAULT_NAME="mtr-kv-$SUBSCRIPTION_ENV-notf9"
+KEY_VAULT_NAME="mltr-kv-$SUBSCRIPTION_ENV-notf-$COUNTER"
 new_key_vault_if_absent "$RESOURCE_GROUP_NAME" "$KEY_VAULT_NAME" "$LOCATION"
 
 sp_result=$(new_service_principal_if_absent "$SUBSCRIPTION_ID" "$SERVICE_PRINCIPAL_NAME" "$KEY_VAULT_NAME")
