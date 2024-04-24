@@ -1,37 +1,50 @@
 #!/bin/bash
 
-source ./new-resource-group-if-absent.sh
-source ./new-key-vault-if-absent.sh
-source ./new-service-principal-if-absent.sh
+if [ -z "$1" ]; then
+  echo "Usage: $0 <subscription_env>"
+  exit 1
+fi
 
-azure_login() {
-    az login --use-device-code
-    SUBSCRIPTION_NAME="$1"
-    az account set --subscription "$SUBSCRIPTION_NAME"
-}
+subscription_env=$1
 
-COUNTER=10
-APP_NAME_PREFIX="ml-training-room"
-SUBSCRIPTION_ENV=$1
-SUBSCRIPTION_NAME="$APP_NAME_PREFIX-$SUBSCRIPTION_ENV"
-SERVICE_PRINCIPAL_NAME="$APP_NAME_PREFIX-principal-$SUBSCRIPTION_ENV-notf-$COUNTER"
+. ./new-resource-group-if-absent.sh
+. ./new-key-vault-if-absent.sh
+. ./new-service-principal-if-absent.sh
 
-azure_login "$SUBSCRIPTION_NAME"
+counter=10
+app_name_prefix="ml-training-room"
+subscription_name="${app_name_prefix}-${subscription_env}"
+service_principal_name="${app_name_prefix}-principal-${subscription_env}-notf-${counter}"
 
-RESOURCE_GROUP_NAME=$(grep 'resource "azurerm_resource_group"' ../modules/shared-components/01-resource_group.tf -A 3 | grep 'name\s*=' | sed -r 's/.*"(.+?)"/\1/')
-RESOURCE_GROUP_NAME="$RESOURCE_GROUP_NAME-notf"
-LOCATION=$(grep 'location\s*=' ../modules/shared-components/01-resource_group.tf | sed -r 's/.*"(.+?)"/\1/')
+login_result=$(az login)
+tenant_id=$(echo $login_result | jq -r ".[] | select(.name == \"$subscription_name\") | .tenantId")
+subscription_id=$(echo $login_result | jq -r ".[] | select(.name == \"$subscription_name\") | .id")
 
-new_resource_group_if_absent "$RESOURCE_GROUP_NAME" "$LOCATION"
-KEY_VAULT_NAME="mltr-kv-$SUBSCRIPTION_ENV-notf-$COUNTER"
-new_key_vault_if_absent "$RESOURCE_GROUP_NAME" "$KEY_VAULT_NAME" "$LOCATION"
+az account set --subscription "$subscription_name"
 
-sp_result=$(new_service_principal_if_absent "$SUBSCRIPTION_ID" "$SERVICE_PRINCIPAL_NAME" "$KEY_VAULT_NAME")
-echo "$sp_result"
+key_vault_name="mltr-kv-${subscription_env}-notf-${counter}"
+terraform_file_contents=$(cat "../modules/shared-components/01-resource_group.tf")
+resource_group_name="mltr-resources"
+resource_group_name="${resource_group_name}-notf"
+location=$(echo "$terraform_file_contents" | grep -oP 'location = "\K(.+?)(?=")')
 
-if [ ! -d "../.terraform" ]; then
+new_resource_group_if_absent "$resource_group_name" "$location"
+new_key_vault_if_absent "$resource_group_name" "$key_vault_name" "$location"
+
+sp_result=$(new_service_principal_if_absent "$subscription_id" "$service_principal_name" "$key_vault_name")
+app_id=$(echo "$sp_result" | jq -r '.AppId')
+password=$(echo "$sp_result" | jq -r '.Password')
+
+export ARM_CLIENT_ID="$app_id"
+export ARM_SUBSCRIPTION_ID="$subscription_id"
+export ARM_TENANT_ID="$tenant_id"
+export ARM_CLIENT_SECRET="$password"
+
+printenv | grep ARM_
+
+terraform_already_initialized=$(test -d "../.terraform" && echo "yes" || echo "no")
+
+if [ "$terraform_already_initialized" != "yes" ]; then
     cd ../
     terraform init
 fi
-
-printenv | grep ARM_

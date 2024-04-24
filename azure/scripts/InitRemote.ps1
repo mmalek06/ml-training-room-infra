@@ -7,10 +7,9 @@ param(
 . ./NewKeyVaultIfAbsent.ps1
 . ./NewServicePrincipalIfAbsent.ps1
 
-$Counter = 10
 $AppNamePrefix = "ml-training-room"
 $SubscriptionName = "$AppNamePrefix-$SubscriptionEnv"
-$ServicePrincipalName = "$AppNamePrefix-principal-$SubscriptionEnv-notf-$Counter"
+$ServicePrincipalName = "$AppNamePrefix-principal-$SubscriptionEnv-notf9"
 $LoginResult = az login
 $Accounts = $LoginResult | ConvertFrom-Json
 $TenantId = ($Accounts | Where-Object { $_.name -eq $SubscriptionName }).tenantId
@@ -18,7 +17,7 @@ $SubscriptionId = ($Accounts | Where-Object { $_.name -eq $SubscriptionName }).i
 
 az account set --subscription $SubscriptionName
 
-$KeyVaultName = "mltr-kv-$SubscriptionEnv-notf-$Counter"
+$KeyVaultName = "mtr-kv-$SubscriptionEnv-notf9"
 $TerraformFileContents = Get-Content "../modules/shared-components/01-resource_group.tf" -Raw
 $ResourceGroupName = [regex]::Match($TerraformFileContents, 'resource "azurerm_resource_group" ".*?" {\s*name\s*=\s*"(.+?)"').Groups[1].Value
 $ResourceGroupName = "$ResourceGroupName-notf"
