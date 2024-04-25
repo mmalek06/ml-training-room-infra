@@ -26,3 +26,10 @@ module "functions" {
   resource_group_name                       = module.shared_components.resource_group_name
   ai_connection_string                      = module.shared_components.ai_connection_string
 }
+
+module "database" {
+  source                  = "./modules/database"
+  environment_name        = var.environment_name
+  resource_group_location = module.shared_components.resource_group_location
+  resource_group_name     = module.shared_components.resource_group_name
+}
