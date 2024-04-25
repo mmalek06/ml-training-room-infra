@@ -1,4 +1,4 @@
-data "azurerm_storage_account_blob_container_sas" "storage_account_blob_container_sas_for_hello" {
+data "azurerm_storage_account_blob_container_sas" "storage_account_blob_container_sas_for_user_mgmt" {
   connection_string = var.storage_account_primary_connection_string
   container_name    = azurerm_storage_container.mltr_code_based_functions_container.name
 
@@ -15,8 +15,8 @@ data "azurerm_storage_account_blob_container_sas" "storage_account_blob_containe
   }
 }
 
-resource "azurerm_linux_function_app" "mltr_code_function_app" {
-  name                       = "mltr-code-function-app"
+resource "azurerm_linux_function_app" "mltr_code_user_mgmt_function_app" {
+  name                       = "mltr-code-user-mgmt-function-app"
   location                   = var.resource_group_location
   resource_group_name        = var.resource_group_name
   service_plan_id            = azurerm_service_plan.mltr_code_based_functions_svc_plan.id
