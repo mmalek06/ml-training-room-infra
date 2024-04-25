@@ -32,4 +32,5 @@ module "database" {
   environment_name        = var.environment_name
   resource_group_location = module.shared_components.resource_group_location
   resource_group_name     = module.shared_components.resource_group_name
+  pg_password             = var.pg_password
 }

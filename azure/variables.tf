@@ -3,3 +3,8 @@ variable "environment_name" {
   type        = string
   default     = "local"
 }
+
+variable "pg_password" {
+  default   = ""
+  sensitive = true
+}
