@@ -13,4 +13,10 @@ resource "azurerm_postgresql_flexible_server" "mltr_db" {
   tags = {
     environment = "${var.environment_name}"
   }
+
+  lifecycle {
+    ignore_changes = [
+      zone,
+    ]
+  }
 }

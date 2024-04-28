@@ -19,4 +19,4 @@ The procedure is simple:
 
 1. cd ./scripts
 2. Run InitEnv.ps1 with the word "local" as the parameter
-3. Run Terraform commands
+3. Run Terraform commands (with the -var="pg_password=pwd" option)
